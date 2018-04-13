@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <!-- 请替换本地jar路径 此文件不要上传 -->
+    <classPathEntry
+        location="/Users/bridgeli/.m2/repository/mysql/mysql-connector-java/5.1.33/mysql-connector-java-5.1.33.jar" />
+
+    <!-- mvn mybatis-generator:generate -->
+    <context id="oneHour"
+        targetRuntime="cn.bridgeli.plugin.IntrospectedTableMyBatis3ImplExt">
+        <property name="suppressAllComments" value="true" />
+        <property name="useActualColumnNames" value="false" />
+        <!-- 格式化java代码 -->
+        <property name="javaFormatter"
+            value="org.mybatis.generator.api.dom.DefaultJavaFormatter" />
+        <!-- 格式化XML代码 -->
+        <property name="xmlFormatter"
+            value="org.mybatis.generator.api.dom.DefaultXmlFormatter" />
+
+        <!-- 配置插件 -->
+        <plugin type="cn.bridgeli.mybatis.MySQLLimitPlugin"></plugin>
+
+        <commentGenerator>
+            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+        <!--数据库连接的信息：驱动类、连接地址、用户名、密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+            connectionURL="jdbc:mysql://ip:port/databasename" userId="username"
+            password="password">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- 配置model生成位置 -->
+        <javaModelGenerator targetPackage="cn.bridgeli.entity"
+            targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- 配置sqlmap生成位置 -->
+        <sqlMapGenerator targetPackage="cn/bridgeli/mapper"
+            targetProject="src/main/resources">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- 配置mapper接口生成位置 -->
+        <javaClientGenerator type="XMLMAPPER"
+            targetPackage="cn.bridgeli.mapper" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <!-- 配置表信息 -->
+        <table tableName="table_name" enableCountByExample="true"
+            domainObjectName="DomainObjectName" enableDeleteByExample="false"
+            enableSelectByExample="true" enableUpdateByExample="true">
+            <generatedKey column="ID" sqlStatement="MySQL"
+                identity="true" />
+        </table>
+    </context>
+
+</generatorConfiguration>
