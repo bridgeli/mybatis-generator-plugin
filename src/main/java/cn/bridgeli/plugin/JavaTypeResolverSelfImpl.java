@@ -14,18 +14,18 @@ public class JavaTypeResolverSelfImpl extends JavaTypeResolverDefaultImpl {
 
         if (jdbcTypeInformation == null) {
             switch (introspectedColumn.getJdbcType()) {
-            case Types.DECIMAL:
-                answer = "DECIMAL"; //$NON-NLS-1$
-                break;
-            case Types.NUMERIC:
-                answer = "NUMERIC"; //$NON-NLS-1$
-                break;
-            case Types.DATE:
-                answer = "TIMESTAMP"; //$NON-NLS-1$
-                break;
-            default:
-                answer = null;
-                break;
+                case Types.DECIMAL:
+                    answer = "DECIMAL"; //$NON-NLS-1$
+                    break;
+                case Types.NUMERIC:
+                    answer = "NUMERIC"; //$NON-NLS-1$
+                    break;
+                case Types.DATE:
+                    answer = "TIMESTAMP"; //$NON-NLS-1$
+                    break;
+                default:
+                    answer = null;
+                    break;
             }
         } else {
             if (jdbcTypeInformation.getJdbcTypeName().equals("DATE")) {

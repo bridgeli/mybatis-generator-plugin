@@ -28,7 +28,6 @@ import org.mybatis.generator.config.PropertyRegistry;
 
 /**
  * 为 mapper 添加注释，修改 mapperExt 的生成方式，为 model 添加一些东西
- * 
  */
 public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
@@ -44,7 +43,6 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
     /**
      * 重写该方法主要为默认mapper添加注释
-     * 
      */
     @Override
     public boolean clientGenerated(Interface interfaze, TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
@@ -54,7 +52,6 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
     /**
      * 为类（model mapper 都通用）添加注释
-     * 
      */
     private void addModelClassComment(Interface topLevelClass, IntrospectedTable introspectedTable, boolean isExt) {
         StringBuilder sb = new StringBuilder();
@@ -90,7 +87,6 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
     /**
      * 添加 xxxMapperExt.java
-     * 
      */
     @Override
     public List<GeneratedJavaFile> contextGenerateAdditionalJavaFiles(IntrospectedTable introspectedTable) {
@@ -123,7 +119,6 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
     /**
      * 生成xxxExt.xml
-     * 
      */
     @Override
     public List<GeneratedXmlFile> contextGenerateAdditionalXmlFiles(IntrospectedTable introspectedTable) {
@@ -155,7 +150,6 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
     /**
      * 添删改默认 mapper.xml 中的sql语句及属性
-     * 
      */
     @Override
     public boolean sqlMapDocumentGenerated(Document document, IntrospectedTable introspectedTable) {
@@ -166,7 +160,6 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
     /**
      * 修改 gmt_create, modifier 等的查改语句
-     * 
      */
     @Override
     public boolean sqlMapUpdateByPrimaryKeySelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
@@ -294,7 +287,7 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
     public static void main(String[] args) {
         String config = BridgeLiMysqlClientGeneratorPlugin.class.getClassLoader().getResource("generatorConfig.xml").getFile();
-        String[] arg = { "-configfile", config };
+        String[] arg = {"-configfile", config};
         ShellRunner.main(arg);
     }
 }

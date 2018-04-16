@@ -16,7 +16,6 @@ import org.mybatis.generator.internal.util.StringUtility;
 
 /**
  * 自定义注释生成
- * 
  */
 public class CNCommentGenerator extends DefaultCommentGenerator {
     private Properties properties;
@@ -30,7 +29,6 @@ public class CNCommentGenerator extends DefaultCommentGenerator {
 
     /**
      * 添加copyright说明
-     * 
      */
     @Override
     public void addJavaFileComment(CompilationUnit compilationUnit) {
@@ -48,7 +46,6 @@ public class CNCommentGenerator extends DefaultCommentGenerator {
 
     /**
      * 为类生成注释，并让类实现 Serializable 接口
-     * 
      */
     @Override
     public void addModelClassComment(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
@@ -106,7 +103,6 @@ public class CNCommentGenerator extends DefaultCommentGenerator {
 
     /**
      * 为字段生成注释
-     * 
      */
     @Override
     public void addFieldComment(Field field, IntrospectedTable introspectedTable, IntrospectedColumn introspectedColumn) {

@@ -12,7 +12,6 @@ import org.mybatis.generator.internal.types.JavaTypeResolverDefaultImpl;
  * 默认 {@linkplain JavaTypeResolverDefaultImpl TypeResolver} 的扩展； 主要用于将 DB
  * 中的类型转换成相应 jdbc 类型，但其实可以通过 &lt;table&gt; 中的 &lt; columnOverride
  * 属性来进行更改（不过使用的本类约定的方式更加方便）
- * 
  */
 public class BridgeLiCoustomJavaTypeResolver extends JavaTypeResolverDefaultImpl {
     protected Map<String, Integer> typeExtMap;
