@@ -1,4 +1,4 @@
-# mybatis-generator-plngin
+# mybatis-generator-plugin
 
 * 把该项目 `clone` 下来之后，在本地执行 `mvn clean install` 或者 `mvn clean deploy` (`deploy` 需要修改 `pom` 中的 `distributionManagement`)
 
