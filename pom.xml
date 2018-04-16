@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>cn.bridgeli</groupId>
-    <artifactId>mybatis-generator-plngin</artifactId>
+    <artifactId>mybatis-generator-plugin</artifactId>
     <version>0.0.1-SNAPSHOT</version>
 
     <name>mybatis-generator-plngin Maven Webapp</name>
