@@ -23,6 +23,8 @@
 
         <!-- 配置插件 -->
         <plugin type="cn.bridgeli.mybatis.MySQLLimitPlugin"></plugin>
+        <plugin type="cn.bridgeli.plugin.BridgeLiMysqlClientGeneratorPlugin"></plugin>
+        <plugin type="cn.bridgeli.mybatis.BatchInsertPlugin"></plugin>
 
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
