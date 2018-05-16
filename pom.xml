@@ -1,13 +1,48 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
 
     <groupId>cn.bridgeli</groupId>
     <artifactId>mybatis-generator-plugin</artifactId>
-    <version>0.0.2-SNAPSHOT</version>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
 
     <name>mybatis-generator-plugin Maven Webapp</name>
-    <url>http://maven.apache.org</url>
+    <description>A MyBatis Generator plugin, add MySQL pagination use limit and batch insert.</description>
+    <url>https://github.com/bridgeli/mybatis-generator-plugin</url>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <issueManagement>
+        <system>GitHub Issues</system>
+        <url>https://github.com/bridgeli/mybatis-generator-plugin/issues</url>
+    </issueManagement>
+
+    <scm>
+        <connection>scm:git:git@github.com:bridgeli/mybatis-generator-plugin.git</connection>
+        <developerConnection>scm:git:git@github.com:bridgeli/mybatis-generator-plugin.git</developerConnection>
+        <url>https://github.com/bridgeli/mybatis-generator-plugin</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <developers>
+        <developer>
+            <id>BridgeLi</id>
+            <name>BridgeLi</name>
+            <email>bridgeli.dev@gmail.com</email>
+        </developer>
+    </developers>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -80,16 +115,4 @@
         </plugins>
     </build>
 
-    <distributionManagement>
-        <repository>
-            <id>releases</id>
-            <name>Local Nexus Repository</name>
-            <url>http://nexus.bridgeli.cn/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>snapshots</id>
-            <name>Local Nexus Repository</name>
-            <url>http://nexus.bridgeli.cn/content/repositories/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>
