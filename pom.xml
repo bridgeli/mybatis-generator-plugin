@@ -33,6 +33,7 @@
         <connection>scm:git:git@github.com:bridgeli/mybatis-generator-plugin.git</connection>
         <developerConnection>scm:git:git@github.com:bridgeli/mybatis-generator-plugin.git</developerConnection>
         <url>git@github.com:bridgeli/mybatis-generator-plugin.git</url>
+        <tag>HEAD</tag>
     </scm>
 
     <developers>
