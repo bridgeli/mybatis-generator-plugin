@@ -1,4 +1,4 @@
-package cn.bridgeli.mybatis.plugin;
+package cn.bridgeli.mybatis.plugin.generator.resolver;
 
 import java.sql.Types;
 
