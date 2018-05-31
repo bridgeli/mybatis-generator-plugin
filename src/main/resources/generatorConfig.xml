@@ -11,7 +11,7 @@
 
     <!-- mvn mybatis-generator:generate -->
     <context id="oneHour"
-        targetRuntime="cn.bridgeli.plugin.IntrospectedTableMyBatis3ImplExt">
+        targetRuntime="cn.bridgeli.mybatis.plugin.IntrospectedTableMyBatis3ImplExt">
         <property name="suppressAllComments" value="true" />
         <property name="useActualColumnNames" value="false" />
         <!-- 格式化java代码 -->
@@ -22,9 +22,10 @@
             value="org.mybatis.generator.api.dom.DefaultXmlFormatter" />
 
         <!-- 配置插件 -->
-        <plugin type="cn.bridgeli.mybatis.MySQLLimitPlugin"></plugin>
-        <plugin type="cn.bridgeli.plugin.BridgeLiMysqlClientGeneratorPlugin"></plugin>
-        <plugin type="cn.bridgeli.mybatis.BatchInsertPlugin"></plugin>
+        <plugin type="cn.bridgeli.mybatis.plugin.BridgeLiMysqlClientGeneratorPlugin"></plugin>
+        <plugin type="cn.bridgeli.mybatis.plugin.MySQLLimitPlugin"></plugin>
+        <plugin type="cn.bridgeli.mybatis.plugin.BatchInsertPlugin"></plugin>
+        <plugin type="cn.bridgeli.mybatis.plugin.BatchInsertSelectivePlugin"></plugin>
 
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->

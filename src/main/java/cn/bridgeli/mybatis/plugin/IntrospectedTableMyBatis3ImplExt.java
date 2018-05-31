@@ -1,4 +1,4 @@
-package cn.bridgeli.plugin;
+package cn.bridgeli.mybatis.plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,11 +11,12 @@ public class IntrospectedTableMyBatis3ImplExt extends IntrospectedTableMyBatis3I
 
     @Override
     public List<GeneratedXmlFile> getGeneratedXmlFiles() {
-        List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>();
+        List<GeneratedXmlFile> answer = new ArrayList<>();
 
         if (xmlMapperGenerator != null) {
             Document document = xmlMapperGenerator.getDocument();
-            boolean mergeable = false; // 新生成的XML文件究竟是追加(true)还是覆盖(false)
+            // 新生成的XML文件究竟是追加(true)还是覆盖(false)
+            boolean mergeable = false;
             if ("true".equalsIgnoreCase(context.getProperty("mergeable"))) {
                 mergeable = true;
             }

@@ -1,4 +1,4 @@
-package cn.bridgeli.plugin.generator;
+package cn.bridgeli.mybatis.plugin.generator;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

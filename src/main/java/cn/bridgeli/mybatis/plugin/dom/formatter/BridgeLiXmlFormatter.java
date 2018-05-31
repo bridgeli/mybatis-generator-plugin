@@ -1,4 +1,4 @@
-package cn.bridgeli.plugin.dom.formatter;
+package cn.bridgeli.mybatis.plugin.dom.formatter;
 
 import org.mybatis.generator.api.dom.DefaultXmlFormatter;
 import org.mybatis.generator.api.dom.xml.Document;

@@ -1,4 +1,4 @@
-package cn.bridgeli.plugin;
+package cn.bridgeli.mybatis.plugin;
 
 import java.sql.Types;
 
@@ -15,20 +15,20 @@ public class JavaTypeResolverSelfImpl extends JavaTypeResolverDefaultImpl {
         if (jdbcTypeInformation == null) {
             switch (introspectedColumn.getJdbcType()) {
                 case Types.DECIMAL:
-                    answer = "DECIMAL"; //$NON-NLS-1$
+                    answer = "DECIMAL";
                     break;
                 case Types.NUMERIC:
-                    answer = "NUMERIC"; //$NON-NLS-1$
+                    answer = "NUMERIC";
                     break;
                 case Types.DATE:
-                    answer = "TIMESTAMP"; //$NON-NLS-1$
+                    answer = "TIMESTAMP";
                     break;
                 default:
                     answer = null;
                     break;
             }
         } else {
-            if (jdbcTypeInformation.getJdbcTypeName().equals("DATE")) {
+            if ("DATE".equals(jdbcTypeInformation.getJdbcTypeName())) {
                 answer = "TIMESTAMP";
             } else {
                 answer = jdbcTypeInformation.getJdbcTypeName();

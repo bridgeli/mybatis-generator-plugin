@@ -1,4 +1,4 @@
-package cn.bridgeli.mybatis;
+package cn.bridgeli.mybatis.plugin;
 
 import java.util.List;
 

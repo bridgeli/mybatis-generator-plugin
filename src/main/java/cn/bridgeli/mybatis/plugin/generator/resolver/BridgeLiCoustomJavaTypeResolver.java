@@ -1,4 +1,4 @@
-package cn.bridgeli.plugin.generator.resolver;
+package cn.bridgeli.mybatis.plugin.generator.resolver;
 
 import java.sql.Types;
 import java.util.HashMap;

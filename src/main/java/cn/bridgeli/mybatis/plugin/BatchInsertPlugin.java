@@ -1,4 +1,4 @@
-package cn.bridgeli.mybatis;
+package cn.bridgeli.mybatis.plugin;
 
 import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
@@ -59,7 +59,7 @@ public class BatchInsertPlugin extends PluginAdapter {
         FullyQualifiedJavaType ibsreturnType = FullyQualifiedJavaType.getIntInstance();
         ibsmethod.setReturnType(ibsreturnType);
         // 3.设置方法名
-        ibsmethod.setName("insertBatchSelective");
+        ibsmethod.setName("insertBatch");
         // 4.设置参数列表
         FullyQualifiedJavaType paramType = FullyQualifiedJavaType.getNewListInstance();
         FullyQualifiedJavaType paramListType;
@@ -68,7 +68,6 @@ public class BatchInsertPlugin extends PluginAdapter {
         } else if (introspectedTable.getRules().generatePrimaryKeyClass()) {
             paramListType = new FullyQualifiedJavaType(introspectedTable.getPrimaryKeyType());
         } else {
-            //$NON-NLS-1$
             throw new RuntimeException(getString("RuntimeError.12"));
         }
         paramType.addTypeArgument(paramListType);
@@ -86,31 +85,19 @@ public class BatchInsertPlugin extends PluginAdapter {
         if (incrementField != null) {
             incrementField = incrementField.toUpperCase();
         }
-        XmlElement javaPropertyAndDbType = new XmlElement("trim");
-        javaPropertyAndDbType.addAttribute(new Attribute("prefix", " ("));
-        javaPropertyAndDbType.addAttribute(new Attribute("suffix", ")"));
-        javaPropertyAndDbType.addAttribute(new Attribute("suffixOverrides", ","));
 
         XmlElement insertBatchElement = new XmlElement("insert");
-        insertBatchElement.addAttribute(new Attribute("id", "insertBatchSelective"));
+        insertBatchElement.addAttribute(new Attribute("id", "insertBatch"));
         insertBatchElement.addAttribute(new Attribute("parameterType", "java.util.List"));
 
-        XmlElement trim1Element = new XmlElement("trim");
-        trim1Element.addAttribute(new Attribute("prefix", "("));
-        trim1Element.addAttribute(new Attribute("suffix", ")"));
-        trim1Element.addAttribute(new Attribute("suffixOverrides", ","));
+        StringBuilder sqlElement = new StringBuilder();
+        StringBuilder javaPropertyAndDbType = new StringBuilder("(");
         for (IntrospectedColumn introspectedColumn : columns) {
             String columnName = introspectedColumn.getActualColumnName();
             // 不是自增字段的才会出现在批量插入中
             if (!columnName.toUpperCase().equals(incrementField)) {
-                XmlElement iftest = new XmlElement("if");
-                iftest.addAttribute(new Attribute("test", "list[0]." + introspectedColumn.getJavaProperty() + "!=null"));
-                iftest.addElement(new TextElement(columnName + ","));
-                trim1Element.addElement(iftest);
-                XmlElement trimiftest = new XmlElement("if");
-                trimiftest.addAttribute(new Attribute("test", "item." + introspectedColumn.getJavaProperty() + "!=null"));
-                trimiftest.addElement(new TextElement("#{item." + introspectedColumn.getJavaProperty() + ",jdbcType=" + introspectedColumn.getJdbcTypeName() + "},"));
-                javaPropertyAndDbType.addElement(trimiftest);
+                sqlElement.append("\n      " + columnName + ",");
+                javaPropertyAndDbType.append("\n      #{item." + introspectedColumn.getJavaProperty() + ",jdbcType=" + introspectedColumn.getJdbcTypeName() + "},");
             }
         }
 
@@ -119,10 +106,10 @@ public class BatchInsertPlugin extends PluginAdapter {
         foreachElement.addAttribute(new Attribute("index", "index"));
         foreachElement.addAttribute(new Attribute("item", "item"));
         foreachElement.addAttribute(new Attribute("separator", ","));
-        insertBatchElement.addElement(new TextElement("insert into " + introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime()));
-        insertBatchElement.addElement(trim1Element);
-        insertBatchElement.addElement(new TextElement(" values "));
-        foreachElement.addElement(javaPropertyAndDbType);
+        insertBatchElement.addElement(new TextElement("insert into " + introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime() + " ("));
+        insertBatchElement.addElement(new TextElement(sqlElement.delete(sqlElement.length() - 1, sqlElement.length()).toString()));
+        insertBatchElement.addElement(new TextElement(") values "));
+        foreachElement.addElement(new TextElement(javaPropertyAndDbType.delete(javaPropertyAndDbType.length() - 1, javaPropertyAndDbType.length()).append(")").toString()));
         insertBatchElement.addElement(foreachElement);
 
         document.getRootElement().addElement(insertBatchElement);

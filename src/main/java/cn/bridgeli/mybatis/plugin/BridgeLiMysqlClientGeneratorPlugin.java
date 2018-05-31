@@ -1,4 +1,4 @@
-package cn.bridgeli.plugin;
+package cn.bridgeli.mybatis.plugin;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -142,7 +142,7 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
         GeneratedXmlFile gxf = new GeneratedXmlFile(document, fileNameExt, introspectedTable.getMyBatis3XmlMapperPackage(), context.getSqlMapGeneratorConfiguration().getTargetProject(), false, context.getXmlFormatter());
 
-        List<GeneratedXmlFile> answer = new ArrayList<GeneratedXmlFile>(1);
+        List<GeneratedXmlFile> answer = new ArrayList<>(1);
         answer.add(gxf);
 
         return answer;
@@ -231,7 +231,7 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
             }
         }
         parentElement.getAttributes().remove(namespaceAttribute);
-        parentElement.getAttributes().add(new Attribute("namespace", introspectedTable.getMyBatis3JavaMapperType() + JAVAFILE_POTFIX));
+        parentElement.getAttributes().add(new Attribute("namespace", introspectedTable.getMyBatis3JavaMapperType()));
     }
 
     private void addGmtModifiedXmlElement(XmlElement setItem, int gmtModifiedItemIndex) {
