@@ -23,6 +23,7 @@
 
         <!-- 配置插件 -->
         <plugin type="cn.bridgeli.mybatis.plugin.SerializablePlugin"></plugin>
+        <plugin type="cn.bridgeli.mybatis.plugin.LombokPlugin"></plugin>
         <plugin type="cn.bridgeli.mybatis.plugin.BridgeLiMysqlClientGeneratorPlugin"></plugin>
         <plugin type="cn.bridgeli.mybatis.plugin.MySQLLimitPlugin"></plugin>
         <plugin type="cn.bridgeli.mybatis.plugin.BatchInsertPlugin"></plugin>

@@ -1,6 +1,6 @@
 # mybatis-generator-plugin
 
-* 把该项目 `clone` 下来之后，在本地执行 `mvn clean install` 或者 `mvn clean deploy` (`deploy` 需要修改 `pom` 中的 `distributionManagement`)
+* 把该项目 `clone` 下来之后，在本地执行 `mvn clean install` 或者 `mvn clean deploy` (`deploy` 需要修改 `pom` 中的 `distributionManagement`)【已经上传 `Maven` 中央仓库，所以此步骤不在需要】
 
 * 在要生成的项目的 `pom` 文件中添加如下配置：
 
@@ -19,7 +19,7 @@
                     <dependency>
                         <groupId>cn.bridgeli</groupId>
                         <artifactId>mybatis-generator-plugin</artifactId>
-                        <version>0.0.2-SNAPSHOT</version>
+                        <version>0.0.4</version>
                     </dependency>
                 </dependencies>
                 <configuration>
