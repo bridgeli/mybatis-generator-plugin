@@ -1,11 +1,5 @@
 package cn.bridgeli.mybatis.plugin;
 
-import static org.mybatis.generator.internal.util.messages.Messages.getString;
-
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
-
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
@@ -19,6 +13,12 @@ import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.Document;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
+
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import static org.mybatis.generator.internal.util.messages.Messages.getString;
 
 public class BatchInsertPlugin extends PluginAdapter {
 
@@ -96,7 +96,7 @@ public class BatchInsertPlugin extends PluginAdapter {
             String columnName = introspectedColumn.getActualColumnName();
             // 不是自增字段的才会出现在批量插入中
             if (!columnName.toUpperCase().equals(incrementField)) {
-                sqlElement.append("\n      " + columnName + ",");
+                sqlElement.append(columnName + ",\n      ");
                 javaPropertyAndDbType.append("\n      #{item." + introspectedColumn.getJavaProperty() + ",jdbcType=" + introspectedColumn.getJdbcTypeName() + "},");
             }
         }
@@ -107,9 +107,9 @@ public class BatchInsertPlugin extends PluginAdapter {
         foreachElement.addAttribute(new Attribute("item", "item"));
         foreachElement.addAttribute(new Attribute("separator", ","));
         insertBatchElement.addElement(new TextElement("insert into " + introspectedTable.getAliasedFullyQualifiedTableNameAtRuntime() + " ("));
-        insertBatchElement.addElement(new TextElement(sqlElement.delete(sqlElement.length() - 1, sqlElement.length()).toString()));
+        insertBatchElement.addElement(new TextElement("  " + sqlElement.delete(sqlElement.lastIndexOf(","), sqlElement.length()).toString()));
         insertBatchElement.addElement(new TextElement(") values "));
-        foreachElement.addElement(new TextElement(javaPropertyAndDbType.delete(javaPropertyAndDbType.length() - 1, javaPropertyAndDbType.length()).append(")").toString()));
+        foreachElement.addElement(new TextElement(javaPropertyAndDbType.delete(javaPropertyAndDbType.length() - 1, javaPropertyAndDbType.length()).append("\n      )").toString()));
         insertBatchElement.addElement(foreachElement);
 
         document.getRootElement().addElement(insertBatchElement);

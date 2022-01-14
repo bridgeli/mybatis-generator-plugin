@@ -1,10 +1,6 @@
 package cn.bridgeli.mybatis.plugin;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
+import cn.bridgeli.mybatis.plugin.util.DateUtil;
 import org.mybatis.generator.api.GeneratedJavaFile;
 import org.mybatis.generator.api.GeneratedXmlFile;
 import org.mybatis.generator.api.IntrospectedColumn;
@@ -25,6 +21,12 @@ import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.XmlConstants;
 import org.mybatis.generator.config.PropertyRegistry;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * 为 mapper 添加注释，修改 mapperExt 的生成方式，为 model 添加一些东西
@@ -57,25 +59,26 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
         StringBuilder sb = new StringBuilder();
 
         topLevelClass.addJavaDocLine("/**");
-        topLevelClass.addJavaDocLine(" * <p>");
+        topLevelClass.addJavaDocLine(" *");
 
         if (!isExt) {
-            sb.append(" * 表 : ");
+            sb.append(" * 表: ");
             sb.append(introspectedTable.getFullyQualifiedTable());
-            sb.append("的 mapper 类");
+            sb.append(" 的 mapper 类");
         } else {
             String name = topLevelClass.getType().getShortName();
-            sb.append(" * ").append(name.substring(0, name.indexOf("Ext")));
-            sb.append("的扩展 mapper 接口");
+            sb.append(" * ").append(name.substring(name.indexOf("Ext")));
+            sb.append(" 的扩展 mapper 接口");
         }
         topLevelClass.addJavaDocLine(sb.toString());
 
         topLevelClass.addJavaDocLine(" * ");
 
         String author = context.getProperty("author");
-        author = author == null ? "$author$" : author;
+        author = author == null ? "BridgeLi" : author;
 
-        topLevelClass.addJavaDocLine(" * @author \t" + author);
+        topLevelClass.addJavaDocLine(" * @author " + author);
+        topLevelClass.addJavaDocLine(" * @date " + DateUtil.date2Str(new Date()));
         topLevelClass.addJavaDocLine(" */");
     }
 

@@ -73,17 +73,32 @@ public class SerializablePlugin extends PluginAdapter {
 
         for (InnerClass innerClass : topLevelClass.getInnerClasses()) {
             if ("GeneratedCriteria".equals(innerClass.getType().getShortName())) {
-                innerClass.addSuperInterface(serializable);
-            }
-            if ("Criteria".equals(innerClass.getType().getShortName())) {
-                innerClass.addSuperInterface(serializable);
-            }
-            if ("Criterion".equals(innerClass.getType().getShortName())) {
-                innerClass.addSuperInterface(serializable);
+                addSerialVersionUIDField(innerClass);
+            } else if ("Criteria".equals(innerClass.getType().getShortName())) {
+                addSerialVersionUIDField(innerClass);
+            } else if ("Criterion".equals(innerClass.getType().getShortName())) {
+                addSerialVersionUIDField(innerClass);
             }
         }
 
         return true;
+    }
+
+    private void addSerialVersionUIDField(InnerClass innerClass) {
+        innerClass.addSuperInterface(serializable);
+        Field field = getSerialVersionUIDField();
+        innerClass.addField(field);
+    }
+
+    private Field getSerialVersionUIDField() {
+        Field field = new Field();
+        field.setFinal(true);
+        field.setInitializationString("1L");
+        field.setName("serialVersionUID");
+        field.setStatic(true);
+        field.setType(new FullyQualifiedJavaType("long"));
+        field.setVisibility(JavaVisibility.PRIVATE);
+        return field;
     }
 
     protected void makeSerializable(TopLevelClass topLevelClass, IntrospectedTable introspectedTable) {
@@ -92,17 +107,20 @@ public class SerializablePlugin extends PluginAdapter {
             topLevelClass.addSuperInterface(gwtSerializable);
         }
 
+        List<Field> fields = topLevelClass.getFields();
+        if (null != fields && fields.size() > 0) {
+            for (Field field : fields) {
+                if ("serialVersionUID".equals(field.getName())) {
+                    return;
+                }
+            }
+        }
+
         if (!suppressJavaInterface) {
             topLevelClass.addImportedType(serializable);
             topLevelClass.addSuperInterface(serializable);
 
-            Field field = new Field();
-            field.setFinal(true);
-            field.setInitializationString("1L");
-            field.setName("serialVersionUID");
-            field.setStatic(true);
-            field.setType(new FullyQualifiedJavaType("long"));
-            field.setVisibility(JavaVisibility.PRIVATE);
+            Field field = getSerialVersionUIDField();
             context.getCommentGenerator().addFieldComment(field, introspectedTable);
 
             topLevelClass.addField(field);
