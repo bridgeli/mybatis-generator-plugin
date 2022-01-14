@@ -19,7 +19,7 @@
                     <dependency>
                         <groupId>cn.bridgeli</groupId>
                         <artifactId>mybatis-generator-plugin</artifactId>
-                        <version>0.0.4</version>
+                        <version>{lastest_version}</version>
                     </dependency>
                 </dependencies>
                 <configuration>
