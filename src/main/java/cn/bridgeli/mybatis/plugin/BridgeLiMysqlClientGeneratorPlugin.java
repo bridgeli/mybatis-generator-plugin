@@ -7,7 +7,6 @@ import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.Plugin;
 import org.mybatis.generator.api.PluginAdapter;
-import org.mybatis.generator.api.ShellRunner;
 import org.mybatis.generator.api.dom.java.CompilationUnit;
 import org.mybatis.generator.api.dom.java.Field;
 import org.mybatis.generator.api.dom.java.FullyQualifiedJavaType;
@@ -16,7 +15,6 @@ import org.mybatis.generator.api.dom.java.JavaVisibility;
 import org.mybatis.generator.api.dom.java.TopLevelClass;
 import org.mybatis.generator.api.dom.xml.Attribute;
 import org.mybatis.generator.api.dom.xml.Document;
-import org.mybatis.generator.api.dom.xml.Element;
 import org.mybatis.generator.api.dom.xml.TextElement;
 import org.mybatis.generator.api.dom.xml.XmlElement;
 import org.mybatis.generator.codegen.XmlConstants;
@@ -37,7 +35,7 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
 
     private static String JAVAFILE_POTFIX = "Ext";
 
-    private static String SQLMAP_COMMON_POTFIX = "and IS_DELETED = '0'";
+    private static String SQLMAP_COMMON_POTFIX = "and is_del = false";
 
     private static String ANNOTATION_RESOURCE = "javax.annotation.Resource";
 
@@ -161,70 +159,6 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
         return super.sqlMapDocumentGenerated(document, introspectedTable);
     }
 
-    /**
-     * 修改 gmt_create, modifier 等的查改语句
-     */
-    @Override
-    public boolean sqlMapUpdateByPrimaryKeySelectiveElementGenerated(XmlElement element, IntrospectedTable introspectedTable) {
-        List<Element> elements = element.getElements();
-        XmlElement setItem = null;
-        int modifierItemIndex = -1;
-        int gmtModifiedItemIndex = -1;
-        boolean needIsDeleted = false;
-        XmlElement gmtCreatedEle = null;
-        XmlElement creatorEle = null;
-        for (Element e : elements) {
-            if (e instanceof XmlElement) {
-                setItem = (XmlElement) e;
-                for (int i = 0; i < setItem.getElements().size(); i++) {
-                    XmlElement xmlElement = (XmlElement) setItem.getElements().get(i);
-                    for (Attribute att : xmlElement.getAttributes()) {
-                        if (att.getValue().equals("modifier != null")) {
-                            modifierItemIndex = i;
-                            break;
-                        }
-                        if (att.getValue().equals("gmtModified != null")) {
-                            gmtModifiedItemIndex = i;
-                            break;
-                        }
-                        if (att.getValue().equals("isDeleted != null")) {
-                            needIsDeleted = true;
-                            break;
-                        }
-                        if (att.getValue().equals("gmtCreated != null")) {
-                            gmtCreatedEle = xmlElement;
-                            break;
-                        }
-                        if (att.getValue().equals("creator != null")) {
-                            creatorEle = xmlElement;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (setItem != null) {
-            if (modifierItemIndex != -1) {
-                addModifierXmlElement(setItem, modifierItemIndex);
-            }
-            if (gmtModifiedItemIndex != -1) {
-                addGmtModifiedXmlElement(setItem, gmtModifiedItemIndex);
-            }
-            if (gmtCreatedEle != null) {
-                setItem.getElements().remove(gmtCreatedEle);
-            }
-            if (creatorEle != null) {
-                setItem.getElements().remove(creatorEle);
-            }
-        }
-        if (needIsDeleted) {
-            TextElement text = new TextElement(SQLMAP_COMMON_POTFIX);
-            element.addElement(text);
-        }
-
-        return super.sqlMapUpdateByPrimaryKeySelectiveElementGenerated(element, introspectedTable);
-    }
 
     private void updateDocumentNameSpace(IntrospectedTable introspectedTable, XmlElement parentElement) {
         Attribute namespaceAttribute = null;
@@ -235,20 +169,6 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
         }
         parentElement.getAttributes().remove(namespaceAttribute);
         parentElement.getAttributes().add(new Attribute("namespace", introspectedTable.getMyBatis3JavaMapperType()));
-    }
-
-    private void addGmtModifiedXmlElement(XmlElement setItem, int gmtModifiedItemIndex) {
-        XmlElement defaultGmtModified = new XmlElement("if");
-        defaultGmtModified.addAttribute(new Attribute("test", "gmtModified == null"));
-        defaultGmtModified.addElement(new TextElement("GMT_MODIFIED = NOW(),"));
-        setItem.getElements().add(gmtModifiedItemIndex + 1, defaultGmtModified);
-    }
-
-    private void addModifierXmlElement(XmlElement setItem, int modifierItemIndex) {
-        XmlElement defaultmodifier = new XmlElement("if");
-        defaultmodifier.addAttribute(new Attribute("test", "modifier == null"));
-        defaultmodifier.addElement(new TextElement("MODIFIER = 'SYSTEM',"));
-        setItem.getElements().add(modifierItemIndex + 1, defaultmodifier);
     }
 
     private boolean isExistExtFile(String targetProject, String targetPackage, String fileName) {
@@ -288,9 +208,4 @@ public class BridgeLiMysqlClientGeneratorPlugin extends PluginAdapter {
         return true;
     }
 
-    public static void main(String[] args) {
-        String config = BridgeLiMysqlClientGeneratorPlugin.class.getClassLoader().getResource("generatorConfig.xml").getFile();
-        String[] arg = {"-configfile", config};
-        ShellRunner.main(arg);
-    }
 }
