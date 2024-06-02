@@ -20,9 +20,7 @@ import java.util.Properties;
 public class SwaggerCommentGenerator extends DefaultCommentGenerator {
     private Properties properties;
     private boolean addRemarkComments = false;
-    private static final String EXAMPLE_SUFFIX = "Example";
-    private static final String API_MODEL_PROPERTY_FULL_CLASS_NAME = "io.swagger.annotations.ApiModelProperty";
-    private static final String API_MODEL_FULL_CLASS_NAME = "io.swagger.annotations.ApiModel";
+    private static final String API_MODEL_FULL_CLASS_NAME = "io.swagger.v3.oas.annotations.media.Schema";
 
     /**
      * 设置用户配置的参数
@@ -49,7 +47,7 @@ public class SwaggerCommentGenerator extends DefaultCommentGenerator {
                 remarks = remarks.replace("\"", "'");
             }
             //给model的字段添加swagger注解
-            field.addJavaDocLine("@ApiModelProperty(value = \"" + remarks + "\")");
+            field.addJavaDocLine("@Schema(title = \"" + remarks + "\")");
         }
     }
 
@@ -121,9 +119,8 @@ public class SwaggerCommentGenerator extends DefaultCommentGenerator {
         serialVersionUID.addJavaDocLine(sb.toString());
 
         topLevelClass.addField(serialVersionUID);
-        topLevelClass.addImportedType(new FullyQualifiedJavaType(API_MODEL_PROPERTY_FULL_CLASS_NAME));
         topLevelClass.addImportedType(API_MODEL_FULL_CLASS_NAME);
-        topLevelClass.addAnnotation("@ApiModel(value = \"" + introspectedTable.getFullyQualifiedTable() + "\", description = \"" + remarks + "\")");
+        topLevelClass.addAnnotation("@Schema(title = \"" + introspectedTable.getFullyQualifiedTable() + "\", description = \"" + remarks + "\")");
     }
 
     @Override
